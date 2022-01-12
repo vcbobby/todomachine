@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocalStorage } from './useLocalStorage'
 
+
 const TodoContext = React.createContext()
 
 function TodoProvider(props) {
@@ -13,6 +14,8 @@ function TodoProvider(props) {
     } = useLocalStorage('TODOS_V1', [])
 
     const [searchValue, setSearchValue] = React.useState('')
+    const [openModal, setOpenModal] = React.useState(false)
+    
     const completedTodos = todos.filter(todo => !!todo.completed).length
     const totalTodos = todos.length
     let searchedTodos = []
@@ -27,31 +30,46 @@ function TodoProvider(props) {
         return todoText.includes(searchText)
     })
 
+}
+
+
+    const addTodo = (text) => {
+        const newTodos = [...todos]
+
+        newTodos.push({
+            completed: false,
+            text,
+        })
+        saveTodos(newTodos)
     }
+
 
     const completeTodo = (text) => {
-    const todoIndex = todos.findIndex(todo => todo.text === text)
-    const newTodos = [...todos]
+        const todoIndex = todos.findIndex(todo => todo.text === text)
+        const newTodos = [...todos]
+        const completed = newTodos[todoIndex].completed
 
-    
-    // todos[todoIndex].completed = true
-    
-    newTodos[todoIndex] = {
-        text: todos[todoIndex].text,
-        completed: true,
-    }
-    saveTodos(newTodos)
+        if(completed === true) {
+            newTodos[todoIndex].completed = false
+        } else {
+            newTodos[todoIndex].completed = true
+        }
+        // newTodos[todoIndex] = {
+        //     text: todos[todoIndex].text,
+        //     completed: true,
+        // }
+        saveTodos(newTodos)
     }
 
     const deleteTodo = (text) => {
-    const todoIndex = todos.findIndex(todo => todo.text === text)
-    const newTodos = [...todos]
+        const todoIndex = todos.findIndex(todo => todo.text === text)
+        const newTodos = [...todos]
 
-    
-    // todos[todoIndex].completed = true
-    
-    newTodos.splice(todoIndex, 1)
-    saveTodos(newTodos)
+        
+        // todos[todoIndex].completed = true
+        
+        newTodos.splice(todoIndex, 1)
+        saveTodos(newTodos)
     }
     
     
@@ -65,7 +83,10 @@ function TodoProvider(props) {
             setSearchValue,
             searchedTodos,
             deleteTodo,
+            addTodo,
             completeTodo,
+            openModal,
+            setOpenModal
         }}>
             {props.children}
         </TodoContext.Provider>
