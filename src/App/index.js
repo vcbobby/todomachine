@@ -19,61 +19,61 @@ import { CreateTodoButton } from '../CreateTodoButton'
 // ]
 function App() {
 
-  const {
-    error,
-    loading,
-    searchedTodos,
-    completeTodo,
-    deleteTodo,
-    openModal,
-    setOpenModal,
-    totalTodos,
-    completedTodos,
-    searchValue,
-    setSearchValue,
-    addTodo,
-    sincronizeTodos
-} = useTodos()
+    const {
+        error,
+        loading,
+        searchedTodos,
+        completeTodo,
+        deleteTodo,
+        openModal,
+        setOpenModal,
+        totalTodos,
+        completedTodos,
+        searchValue,
+        setSearchValue,
+        addTodo,
+        sincronizeTodos
+    } = useTodos()
 
-return (
-    <>
-        <TodoHeader>
-            <TodoCounter
+    return (
+        <>
+            <TodoHeader>
+                <TodoCounter
+                    totalTodos={totalTodos}
+                    completedTodos={completedTodos}
+                    loading={loading}
+
+                />
+                <TodoSearch
+                    searchValue={searchValue}
+                    setSearchValue={setSearchValue}
+                    loading={loading}
+
+                />
+            </TodoHeader>
+
+            <TodoList
+                error={error}
+                loading={loading}
+                searchedTodos={searchedTodos}
                 totalTodos={totalTodos}
-                completedTodos={completedTodos}
-                loading={loading}
-
-            />
-            <TodoSearch
                 searchValue={searchValue}
-                setSearchValue={setSearchValue}
-                loading={loading}
-
-             />
-      </TodoHeader>
-
-      <TodoList
-        error={error}
-        loading={loading}
-        searchedTodos={searchedTodos}
-        totalTodos={totalTodos}
-        searchValue={searchValue}
-        onError={() => <p>Ocurrió un error</p>}
-        onLoading={() => <p>Estamos cargando</p>}
-        onEmptyTodo={() => <p>No hay todos</p>}
-        onEmptySearchResults={(searchText) => <p>No hay resultados para {searchText}</p>}
-        render={todo => (
-            <TodoItem
-                key={todo.text}
-                text={todo.text}
-                completed={todo.completed}
-                onComplete={() => completeTodo(todo.text)}
-                onDelete={() => deleteTodo(todo.text)}
+                onError={() => <p>Ocurrió un error</p>}
+                onLoading={() => <p>Estamos cargando</p>}
+                onEmptyTodo={() => <p>No hay todos</p>}
+                onEmptySearchResults={(searchText) => <p>No hay resultados para {searchText}</p>}
+                render={todo => (
+                    <TodoItem
+                        key={todo.text}
+                        text={todo.text}
+                        completed={todo.completed}
+                        onComplete={() => completeTodo(todo.text)}
+                        onDelete={() => deleteTodo(todo.text)}
+                    />
+                )}
             />
-          )}
-      />
-      
-      {/* <TodoList>
+
+            {/* <TodoList>
           {error && <p>Ocurrió un error</p>}
           {loading && <p>Estamos cargando</p>}
           {(!loading && !searchedTodos.length) && <p>Crea tu primer TODO!</p>}
@@ -88,22 +88,22 @@ return (
           ))}
       </TodoList> */}
 
-      {!!openModal && (
-          <Modal>
-              <TodoForm
-                addTodo={addTodo}
-                setOpenModal={setOpenModal}
-              />
-          </Modal>
-      )}
+            {!!openModal && (
+                <Modal>
+                    <TodoForm
+                        addTodo={addTodo}
+                        setOpenModal={setOpenModal}
+                    />
+                </Modal>
+            )}
 
-      <CreateTodoButton
-          setOpenModal={setOpenModal}
-          openModal={openModal}
-      />
-      <ChangeAlertWithStorageListener sincronize={sincronizeTodos} />
-  </>
-  )
+            <CreateTodoButton
+                setOpenModal={setOpenModal}
+                openModal={openModal}
+            />
+            <ChangeAlertWithStorageListener sincronize={sincronizeTodos} />
+        </>
+    )
 }
 
 export default App;

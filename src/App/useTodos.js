@@ -3,7 +3,7 @@ import { useLocalStorage } from './useLocalStorage'
 
 
 function useTodos() {
-    
+
     const {
         item: todos,
         saveItem: saveTodos,
@@ -14,22 +14,22 @@ function useTodos() {
 
     const [searchValue, setSearchValue] = React.useState('')
     const [openModal, setOpenModal] = React.useState(false)
-    
+
     const completedTodos = todos.filter(todo => !!todo.completed).length
     const totalTodos = todos.length
     let searchedTodos = []
 
 
     if (!searchValue.length >= 1) {
-    searchedTodos = todos
+        searchedTodos = todos
     } else {
-    searchedTodos = todos.filter(todo => {
-        const todoText = todo.text.toLowerCase()
-        const searchText = searchValue.toLowerCase()
-        return todoText.includes(searchText)
-    })
+        searchedTodos = todos.filter(todo => {
+            const todoText = todo.text.toLowerCase()
+            const searchText = searchValue.toLowerCase()
+            return todoText.includes(searchText)
+        })
 
-}
+    }
 
 
     const addTodo = (text) => {
@@ -48,7 +48,7 @@ function useTodos() {
         const newTodos = [...todos]
         const completed = newTodos[todoIndex].completed
 
-        if(completed === true) {
+        if (completed === true) {
             newTodos[todoIndex].completed = false
         } else {
             newTodos[todoIndex].completed = true
@@ -64,14 +64,14 @@ function useTodos() {
         const todoIndex = todos.findIndex(todo => todo.text === text)
         const newTodos = [...todos]
 
-        
+
         // todos[todoIndex].completed = true
-        
+
         newTodos.splice(todoIndex, 1)
         saveTodos(newTodos)
     }
-    
-    
+
+
     return {
         loading,
         error,
